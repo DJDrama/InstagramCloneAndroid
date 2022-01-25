@@ -9,5 +9,17 @@
         android:id="@+id/introFragment"
         tools:layout="@layout/fragment_intro"
         android:name="com.dj.instagramClone.presentation.ui.launcher.IntroFragment"
-        android:label="IntroFragment" />
+        android:label="IntroFragment" >
+        <action
+            android:id="@+id/action_introFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph_launcher"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        tools:layout="@layout/fragment_login"
+        android:name="com.dj.instagramClone.presentation.ui.launcher.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>
