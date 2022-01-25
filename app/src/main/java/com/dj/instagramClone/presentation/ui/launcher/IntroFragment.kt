@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.dj.instagramClone.R
 import com.dj.instagramClone.databinding.FragmentIntroBinding
 import com.dj.instagramClone.presentation.ui.main.MainActivity
@@ -38,7 +39,7 @@ class IntroFragment : Fragment(R.layout.fragment_intro) {
                 viewModel.introUiState.collect {
                     when (it) {
                         is IntroUiState.LoadComplete -> {
-                            navigateToMainActivity()
+                            navigateToLoginFragment()
                         }
                         is IntroUiState.Loading -> {
                         }
@@ -48,11 +49,8 @@ class IntroFragment : Fragment(R.layout.fragment_intro) {
         }
     }
 
-    private fun navigateToMainActivity() {
-        Intent(requireActivity(), MainActivity::class.java).also {
-            startActivity(it)
-            requireActivity().finish()
-        }
+    private fun navigateToLoginFragment() {
+        findNavController().navigate(R.id.action_introFragment_to_loginFragment)
     }
 
     override fun onDestroyView() {
