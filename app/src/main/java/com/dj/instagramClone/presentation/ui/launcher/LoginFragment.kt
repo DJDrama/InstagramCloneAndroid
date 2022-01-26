@@ -3,12 +3,14 @@ package com.dj.instagramClone.presentation.ui.launcher
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.dj.instagramClone.R
 import com.dj.instagramClone.databinding.FragmentLoginBinding
 import kotlinx.coroutines.flow.collect
@@ -37,6 +39,8 @@ class LoginFragment : Fragment(R.layout.fragment_login), View.OnClickListener {
         binding.ivLoginWithFacebook.setOnClickListener(this)
         binding.btnCreateNewAccount.setOnClickListener(this)
 
+        binding.tvNoAccount.setOnClickListener(this)
+        binding.tvSignUp.setOnClickListener(this)
 
         binding.etId.doAfterTextChanged {
             viewModel.setCredentials(id = it.toString())
@@ -49,16 +53,35 @@ class LoginFragment : Fragment(R.layout.fragment_login), View.OnClickListener {
     private fun subscribeToObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.credentialUiState.collect {
-                    when (it) {
-                        CredentialUiState.BothFilled -> {
-                            setButtonLoginClickableWithAlphaOne()
-                        }
-                        CredentialUiState.BothNotFilled -> {
-                            setButtonLoginNotClickableWithAlphaPointThree()
+                launch{
+                    viewModel.credentialUiState.collect {
+                        when (it) {
+                            CredentialUiState.BothFilled -> {
+                                setButtonLoginClickableWithAlphaOne()
+                            }
+                            CredentialUiState.BothNotFilled -> {
+                                setButtonLoginNotClickableWithAlphaPointThree()
+                            }
                         }
                     }
                 }
+                launch{
+                    viewModel.createNewAccountState.collect {
+                        when(it){
+                            CreateNewAccountState.FirstTime->{
+                                binding.btnCreateNewAccount.isVisible=true
+                                binding.groupSignUp.isVisible=false
+                            }
+                            CreateNewAccountState.NotFirstTime -> {
+                                binding.btnCreateNewAccount.isVisible=false
+                                binding.groupSignUp.isVisible=true
+                                findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+                                viewModel.setCreateAccountStateEmpty()
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -89,7 +112,8 @@ class LoginFragment : Fragment(R.layout.fragment_login), View.OnClickListener {
                 }
                 binding.ivLoginWithFacebook -> {
                 }
-                binding.btnCreateNewAccount -> {
+                binding.btnCreateNewAccount, binding.tvNoAccount, binding.tvSignUp -> {
+                    viewModel.onCreateNewAccountClicked()
                 }
             }
         }

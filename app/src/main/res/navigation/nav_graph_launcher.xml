@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/introFragment"
-        tools:layout="@layout/fragment_intro"
         android:name="com.dj.instagramClone.presentation.ui.launcher.IntroFragment"
-        android:label="IntroFragment" >
+        android:label="IntroFragment"
+        tools:layout="@layout/fragment_intro">
         <action
             android:id="@+id/action_introFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -19,7 +19,16 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        tools:layout="@layout/fragment_login"
         android:name="com.dj.instagramClone.presentation.ui.launcher.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.dj.instagramClone.presentation.ui.launcher.RegistrationFragment"
+        android:label="RegistrationFragment"
+        tools:layout="@layout/fragment_registration" />
 </navigation>
