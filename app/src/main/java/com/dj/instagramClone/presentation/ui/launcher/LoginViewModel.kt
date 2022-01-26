@@ -41,11 +41,6 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun setCreateAccountStateEmpty() {
-        viewModelScope.launch {
-            _createNewAccountState.value = CreateNewAccountState.Empty
-        }
-    }
 }
 
 sealed class CredentialUiState {
@@ -56,5 +51,4 @@ sealed class CredentialUiState {
 sealed class CreateNewAccountState {
     object NotFirstTime: CreateNewAccountState()
     object FirstTime: CreateNewAccountState()
-    object Empty: CreateNewAccountState()
 }

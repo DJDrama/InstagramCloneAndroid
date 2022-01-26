@@ -75,8 +75,6 @@ class LoginFragment : Fragment(R.layout.fragment_login), View.OnClickListener {
                             CreateNewAccountState.NotFirstTime -> {
                                 binding.btnCreateNewAccount.isVisible=false
                                 binding.groupSignUp.isVisible=true
-                                findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
-                                viewModel.setCreateAccountStateEmpty()
                             }
                         }
                     }
@@ -114,6 +112,7 @@ class LoginFragment : Fragment(R.layout.fragment_login), View.OnClickListener {
                 }
                 binding.btnCreateNewAccount, binding.tvNoAccount, binding.tvSignUp -> {
                     viewModel.onCreateNewAccountClicked()
+                    findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
                 }
             }
         }
